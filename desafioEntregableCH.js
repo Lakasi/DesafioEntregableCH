@@ -1,50 +1,70 @@
 class ProductManager{
-    constructor(productsData){
-
+    constructor(){
         this.products = [];
-        this.productsData = productsData;
-     
+    }
+    addProduct(item){
+        const products = this.getProducts()
+        if(products.length){
+            if(products.find(element => element.code === item.code)){
+                return console.log("This element already exist")
+            }
+            else {
+                let lastIndex = products.length - 1;
+                let lastId = products[lastIndex].id;
+                item.id = lastId + 1;
+                let id = item.id;
+                this.products.push(item);
+                console.log("Successfully Added")
+                return id;
+            }
 
+        } else {
+            item.id = 1;
+            this.products.push(item);
+            console.log("Successfully Added")
+        }
     }
     getProducts(){
-        return this.products
+        const products = this.products;
+        return products
     }
-    addProduct(){
-        return this.products.push(this.productsData)
+    showProducts(){
+        return console.log(this.products)
     }
     getProductById(id){
-        let res = this.products.find(product => product.code === id)
-        return res
-    } 
-}
-
-class ProductsDetails{
-
-    constructor(title, description, price, thumbnail, code, stock){
-        
-        this.title = title ;
-        this.description = description;
-        this.price = price;
-        this.description = description;
-        this.thumbnail = thumbnail;
-        this.code = code;
-        this.stock = stock;  
-
+        const products = this.getProducts();
+        let productsById;
+        const notFound = 'Not Found'
+        products.map(el => {
+            el.id === id && (productsById = el);
+        });
+        return productsById ? console.log(productsById) : console.log(notFound);
     }
-
 }
-const Product_1 = new ProductsDetails("Harry Potter", "Witches Saga Book", "$350", "asaddad", "01", "15")
-const Product_2 = new ProductsDetails("Hunger Games", "Survival game Saga Books", "$400", "asaddad", "02", "10")
-const Product_3 = new ProductsDetails("Oz Wizzard", "Magical world and creatures", "$320", "asaddad", "03", "7")
+
+const ProductsManager = new ProductManager()
+
+ProductsManager.addProduct(
+    {
+        title:'Harry Potter',
+        description:'Witch Saga',
+        price:250,
+        thumbnail:'imagen',
+        code:'asda5d138',
+        stock:25
+    }
+)
+ProductsManager.addProduct(
+    {
+        title:'Harry Potter',
+        description:'Witch Saga',
+        price:250,
+        thumbnail:'imagen',
+        code:'asdad513s8',
+        stock:25
+    }
+)
+ProductsManager.showProducts()
 
 
-const Products01 = new ProductManager(Product_1)
-Products01.addProduct()
 
-const Products02 = new ProductManager(Product_2)
-Products01.addProduct()
-
-const Products03 = new ProductManager(Product_3)
-Products01.addProduct()
-
-console.log(Products01.getProducts())
